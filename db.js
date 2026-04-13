@@ -51,6 +51,8 @@ export async function addVisit(visit) {
 
         const request = store.add(visit);
 
+        // console.log(visit);
+
         request.onsuccess = () => resolve();
         request.onerror = () => reject(request.error);
     });
