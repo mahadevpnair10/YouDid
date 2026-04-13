@@ -1,7 +1,7 @@
 import { getVisitsAfter, addSession } from "./db.js";
 import { getLastProcessed, setLastProcessed } from "./state.js";
 
-const SESSION_GAP = 30 * 60 * 1000;
+const SESSION_GAP = 5 * 60 * 1000;
 
 function generateSessionId() {
     return "s_" + Date.now() + "_" + Math.random().toString(36).slice(2);
@@ -31,6 +31,8 @@ function buildSessionsFromVisits(visits) {
         sessions.push(currentSession);
     }
 
+    console.log(currentSession);
+
     return sessions;
 }
 
@@ -47,10 +49,15 @@ function convertToTransaction(sessionVisits) {
 
 export async function generateSessions() {
     try {
+        console.log("SESSION GENERATION TRIGGERED");
         const lastProcessed = await getLastProcessed();
 
         // ✅ IMPORTANT FIX: overlap to avoid session splitting
         const visits = await getVisitsAfter(lastProcessed - SESSION_GAP);
+
+        console.log("LAST PROCESSED:", lastProcessed);
+        console.log("VISITS FETCHED:", visits);
+
 
         if (!visits.length) return;
 

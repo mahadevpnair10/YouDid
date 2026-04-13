@@ -26,10 +26,17 @@ chrome.history.onVisited.addListener(async (item) => {
     await addVisit(visit); // ensureDB handles safety
 });
 
-// Periodic session generation
-setInterval(() => {
-    generateSessions();
-}, 5 * 60 * 1000);
+chrome.alarms.create("sessionGen", {
+    periodInMinutes: 0.083 // ~5 seconds
+});
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name === "sessionGen") {
+        console.log("ALARM FIRED: sessionGen");
+        generateSessions();
+    }
+});
+
 
 // Debug: run Apriori once
 setTimeout(() => {

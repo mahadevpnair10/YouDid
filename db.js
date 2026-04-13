@@ -35,9 +35,9 @@ export function initDB() {
 
 export async function ensureDB() {
     if (!db) {
-        console.log('ok1');
+        // console.log('ok1');
         await initDB();
-        console.log('ok2');
+        // console.log('ok2');
     }
 }
 
@@ -95,6 +95,10 @@ export async function getVisitsAfter(timestamp) {
             }
         };
 
+        
+        console.log('GetAllVisitsAfter:');
+        console.log('results: ',results);
+
         tx.onerror = () => reject(tx.error);
     });
 }
@@ -119,6 +123,7 @@ export async function getAllSessions() {
                 resolve(results);
             }
         };
+
 
         tx.onerror = () => reject(tx.error);
     });
