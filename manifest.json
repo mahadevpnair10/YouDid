@@ -18,5 +18,8 @@
     "history",
     "storage",
     "alarms"
+  ],
+  "host_permissions": [
+    "<all_urls>"
   ]
 }
